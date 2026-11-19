@@ -259,6 +259,7 @@
     let timer = null;
     let locked = false;
     let round = 1;
+    const totalRounds = 2;
     let previousDeck = "";
     const usedNumbers = new Set(["10", "22", "37", "48", "63", "79"]);
 
@@ -386,13 +387,14 @@
 
     function showWin() {
       document.getElementById("winText").textContent =
-        `Score: ${score} · Moves: ${moves} · Time: ${formatTime(seconds)}`;
-      document.getElementById("restart").textContent = `Start Round ${round + 1}`;
+        `Round ${round} of ${totalRounds} · Score: ${score} · Moves: ${moves} · Time: ${formatTime(seconds)}`;
+      document.getElementById("restart").textContent =
+        round < totalRounds ? `Start Round ${round + 1}` : "Play Again";
       document.getElementById("win").classList.add("show");
     }
 
     document.getElementById("restart").addEventListener("click", () => {
-      round++;
+      round = round < totalRounds ? round + 1 : 1;
       createBoard();
     });
     document.getElementById("startGame").addEventListener("click", () => {
