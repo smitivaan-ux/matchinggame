@@ -260,6 +260,7 @@
     let locked = false;
     let round = 1;
     const totalRounds = 2;
+    const roundScores = [0, 0];
     let previousDeck = "";
     const usedNumbers = new Set(["10", "22", "37", "48", "63", "79"]);
 
@@ -386,8 +387,17 @@
     }
 
     function showWin() {
+      roundScores[round - 1] = score;
+      const scoreLines = roundScores
+        .slice(0, round)
+        .map((roundScore, index) =>
+          `<div>Round ${index + 1} Score: ${roundScore}</div>`
+        )
+        .join("");
       document.getElementById("winText").textContent =
-        `Round ${round} of ${totalRounds} · Score: ${score} · Moves: ${moves} · Time: ${formatTime(seconds)}`;
+        "";
+      document.getElementById("winText").innerHTML =
+        `${scoreLines}<div>Moves: ${moves} · Time: ${formatTime(seconds)}</div>`;
       document.getElementById("restart").textContent =
         round < totalRounds ? `Start Round ${round + 1}` : "Play Again";
       document.getElementById("win").classList.add("show");
